@@ -9,17 +9,17 @@ namespace MailClient.App.Infrastructure.ViewUpdaters
     /// </summary>
     public class AddServerViewUpdater : IViewUpdater<ServerCredentialModel>
     {
-        private readonly IOutputWriterService _output;
+        private readonly IOutputWriterService _outputWriterService;
 
         public AddServerViewUpdater(IOutputWriterService outputWriterService)
         {
-            _output = outputWriterService;
+            _outputWriterService = outputWriterService;
         }
 
         public void UpdateView(ServerCredentialModel model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
-            _output.WriteLine($"Successfully added server: {model.DisplayName}");
+            _outputWriterService.WriteLine($"Successfully added server: {model.DisplayName}");
         }
     }
 }

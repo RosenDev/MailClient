@@ -20,7 +20,7 @@ namespace MailClient.App.CommandsAndQueries.Commands
         {
             var credentials = await _userCredentialService.GetCredentialsByServerAsync(request.ServerId, cancellationToken);
 
-            await _smtpClient.ConnectAsync(credentials.SmptServerAddress, (int)credentials.SmtpPort, cancellationToken);
+            await _smtpClient.ConnectAsync(credentials.SmtpServerAddress, (int)credentials.SmtpPort, cancellationToken);
             await _smtpClient.AuthenticateAsync(credentials.Username, credentials.Password, cancellationToken);
 
             var email = new EmailMessageRequest

@@ -6,18 +6,18 @@ namespace MailClient.App.Infrastructure.ViewUpdaters
 {
     public class NewEmailViewUpdater : IViewUpdater<NewEmailModel>
     {
-        private readonly IOutputWriterService _output;
+        private readonly IOutputWriterService _outputWriterService;
 
         public NewEmailViewUpdater(IOutputWriterService outputWriterService)
         {
-            _output = outputWriterService;
+            _outputWriterService = outputWriterService;
         }
 
         public void UpdateView(NewEmailModel model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
 
-            _output.WriteLine($"Sucessfully sent email");
+            _outputWriterService.WriteLine($"Sucessfully sent email");
         }
     }
 }

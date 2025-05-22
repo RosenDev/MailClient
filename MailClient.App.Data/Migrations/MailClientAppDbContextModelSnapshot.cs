@@ -17,7 +17,7 @@ namespace MailClient.App.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
 
-            modelBuilder.Entity("MailClient.Domain.ServerCredential", b =>
+            modelBuilder.Entity("MailClient.App.Domain.ServerCredential", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,12 +41,12 @@ namespace MailClient.App.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SmptServerAddress")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<uint>("SmtpPort")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("SmtpServerAddress")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("TEXT");

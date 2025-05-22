@@ -18,5 +18,31 @@ namespace MailClient.App.Data
             modelBuilder.Entity<ServerCredential>()
                 .HasKey(x => x.Id);
         }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ApplyAuditInfoRules();
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void ApplyAuditInfoRules()
+        {
+            var changedEntries = this.ChangeTracker
+                .Entries()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            foreach(var entry in changedEntries)
+            {
+                var entity = (EntityBase)entry.Entity;
+
+                if(entry.State == EntityState.Added)
+                {
+                    entity.Created = DateTime.UtcNow;
+                }
+
+                entity.Updated = DateTime.UtcNow;
+            }
+        }
     }
 }

@@ -11,8 +11,8 @@ namespace MailClient.App.Infrastructure.Prompts
     public class SelectServerPrompt : IAsyncPrompt<ServerModel>
     {
         private readonly IServerCredentialsService _serverCredentialsService;
-        private readonly IInputReaderService _input;
-        private readonly IOutputWriterService _output;
+        private readonly IInputReaderService _inputReaderService;
+        private readonly IOutputWriterService _outputWriterService;
 
         public SelectServerPrompt(
             IServerCredentialsService serverCredentialsService,
@@ -20,8 +20,8 @@ namespace MailClient.App.Infrastructure.Prompts
             IOutputWriterService outputWriterService)
         {
             _serverCredentialsService = serverCredentialsService;
-            _input = inputReaderService;
-            _output = outputWriterService;
+            _inputReaderService = inputReaderService;
+            _outputWriterService = outputWriterService;
         }
 
         public async Task<ServerModel> RunAsync(CancellationToken ct)
@@ -29,17 +29,17 @@ namespace MailClient.App.Infrastructure.Prompts
             var saved = await _serverCredentialsService.FetchServersAsync(ct);
             var list = saved.Servers;
 
-            _output.WriteLine("Type 'Cancel' to return to the main menu.");
+            _outputWriterService.WriteLine("Type 'Cancel' to return to the main menu.");
             while(!ct.IsCancellationRequested)
             {
-                _output.WriteLine("Saved servers:");
+                _outputWriterService.WriteLine("Saved servers:");
                 foreach(var creds in list)
                 {
-                    _output.WriteLine($"  {creds.Id}. {creds.DisplayName}");
+                    _outputWriterService.WriteLine($"  {creds.Id}. {creds.DisplayName}");
                 }
-                _output.Write("Enter the number of the server to select: ");
+                _outputWriterService.Write("Enter the number of the server to select: ");
 
-                var input = _input.ReadLine()?.Trim() ?? string.Empty;
+                var input = _inputReaderService.ReadLine()?.Trim() ?? string.Empty;
                 if(IsCancel(input))
                     throw new OperationCanceledException();
 
@@ -50,7 +50,7 @@ namespace MailClient.App.Infrastructure.Prompts
                         return match;
                 }
 
-                _output.WriteLine("Invalid selection. Please enter a valid number or 'Cancel'.");
+                _outputWriterService.WriteLine("Invalid selection. Please enter a valid number or 'Cancel'.");
             }
 
             throw new OperationCanceledException(ct);

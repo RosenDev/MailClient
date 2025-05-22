@@ -17,7 +17,6 @@ namespace MailClient.App.Services
         /// Initializes a new instance of <see cref="ServerCredentialsService"/>.
         /// </summary>
         /// <param name="dbContext">The EF Core <see cref="MailClientAppDbContext"/> to use.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="dbContext"/> is null.</exception>
         public ServerCredentialsService(MailClientAppDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -39,7 +38,7 @@ namespace MailClient.App.Services
             {
                 ImapServerAddress = model.ImapServerAddress,
                 ImapPort = model.ImapPort,
-                SmptServerAddress = model.SmptServerAddress,
+                SmtpServerAddress = model.SmtpServerAddress,
                 SmtpPort = model.SmtpPort,
                 Username = model.Username,
                 Password = model.Password,
@@ -121,7 +120,7 @@ namespace MailClient.App.Services
             {
                 ImapServerAddress = entity.ImapServerAddress,
                 ImapPort = entity.ImapPort,
-                SmptServerAddress = entity.SmptServerAddress,
+                SmtpServerAddress = entity.SmtpServerAddress,
                 SmtpPort = entity.SmtpPort,
                 Username = entity.Username,
                 Password = entity.Password,

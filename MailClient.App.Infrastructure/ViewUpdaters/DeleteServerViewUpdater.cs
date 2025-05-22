@@ -9,17 +9,17 @@ namespace MailClient.App.Infrastructure.ViewUpdaters
     /// </summary>
     public class DeleteServerViewUpdater : IViewUpdater<DeleteServerModel>
     {
-        private readonly IOutputWriterService _output;
+        private readonly IOutputWriterService _outputWriterService;
 
         public DeleteServerViewUpdater(IOutputWriterService outputWriterService)
         {
-            _output = outputWriterService;
+            _outputWriterService = outputWriterService;
         }
 
         public void UpdateView(DeleteServerModel model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
-            _output.WriteLine($"Successfully deleted server: {model.Id}");
+            _outputWriterService.WriteLine($"Successfully deleted server: {model.Id}");
         }
     }
 }

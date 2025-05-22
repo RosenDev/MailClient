@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -20,7 +19,7 @@ namespace MailClient.App.Data.Migrations
                     DisplayName = table.Column<string>(type: "TEXT", nullable: false),
                     ImapServerAddress = table.Column<string>(type: "TEXT", nullable: false),
                     ImapPort = table.Column<uint>(type: "INTEGER", nullable: false),
-                    SmptServerAddress = table.Column<string>(type: "TEXT", nullable: false),
+                    SmtpServerAddress = table.Column<string>(type: "TEXT", nullable: false),
                     SmtpPort = table.Column<uint>(type: "INTEGER", nullable: false),
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),

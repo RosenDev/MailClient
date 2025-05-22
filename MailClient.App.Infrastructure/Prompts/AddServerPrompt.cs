@@ -51,7 +51,7 @@ namespace MailClient.App.Infrastructure.Prompts
             {
                 ImapServerAddress = imapAddress,
                 ImapPort = imapPort,
-                SmptServerAddress = smtpAddress,
+                SmtpServerAddress = smtpAddress,
                 SmtpPort = smtpPort,
                 DisplayName = displayName,
                 Username = username,

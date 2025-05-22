@@ -9,18 +9,18 @@ namespace MailClient.App.Infrastructure.ViewUpdaters
     /// </summary>
     public class SelectServerViewUpdater : IViewUpdater<ServerModel>
     {
-        private readonly IOutputWriterService _output;
+        private readonly IOutputWriterService _outputWriterService;
 
         public SelectServerViewUpdater(IOutputWriterService outputWriterService)
         {
-            _output = outputWriterService;
+            _outputWriterService = outputWriterService;
         }
 
         public void UpdateView(ServerModel model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
 
-            _output.WriteLine($"Selected server: {model.DisplayName}");
+            _outputWriterService.WriteLine($"Selected server: {model.DisplayName}");
         }
     }
 }
