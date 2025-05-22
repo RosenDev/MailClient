@@ -10,6 +10,10 @@ using Serilog;
 
 namespace MailClient.App.Infrastructure
 {
+    /// <summary>
+    /// AppRunner is the application entry point
+    /// All actions happen here
+    /// </summary>
     public class AppRunner : IAppRunner
     {
         private readonly IMediator _mediator;
@@ -58,6 +62,9 @@ namespace MailClient.App.Infrastructure
             _logger = logger;
         }
 
+        /// <summary>
+        /// Used to run the app
+        /// </summary>
         public async Task RunAsync(CancellationToken ct)
         {
             while(!ct.IsCancellationRequested)

@@ -95,8 +95,6 @@ namespace MailClient
             }
         }
 
-        // --- All private helper methods below are unchanged ---
-
         private async Task ConnectAsync(string host, int port, CancellationToken ct)
         {
             var readerAndWriter = await _connectionFactory.CreateSecureConnectionAsync(host, port, ct);
@@ -131,11 +129,11 @@ namespace MailClient
         private async Task<List<string>> FetchMessageUidsAsync(CancellationToken ct)
         {
             var tag = GetNextTag();
-            await SendCommandAsync(tag, "UID SEARCH ALL", ct);
+            await SendCommandAsync(tag, ImapCommands.UidSearchAll, ct);
             var lines = await ReadLinesUntilTagAsync(tag, ct);
             foreach(var line in lines)
             {
-                if(line.StartsWith("* SEARCH"))
+                if(line.StartsWith(ImapCommands.Search))
                 {
                     var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                     return parts.Length > 2
@@ -153,7 +151,7 @@ namespace MailClient
                 : $"{uids.First()}:{uids.Last()}";
 
             var tag = GetNextTag();
-            await SendCommandAsync(tag, $"UID FETCH {set} (RFC822)", ct);
+            await SendCommandAsync(tag, string.Format(ImapCommands.UidFetch, set), ct);
 
             var list = new List<RawEmailResponse>();
             var sb = new StringBuilder();
@@ -165,7 +163,7 @@ namespace MailClient
                 var line = await _reader.ReadLineAsync(ct);
                 if(line == null) break;
 
-                if(line.StartsWith("*") && line.Contains("FETCH"))
+                if(line.StartsWith("*") && line.Contains(ImapCommands.Fetch))
                 {
                     if(collecting && currentUid != null)
                     {
