@@ -16,7 +16,7 @@ namespace MailClient.Tests.CommandsAndQueries
             var smtpMock = new Mock<ISmtpClient>();
             var credsModel = new ServerCredentialModel
             {
-                SmtpServerAddress = "smtp.ex",
+                SmtpServerAddress = "smtp.mail.server.com",
                 SmtpPort = 587,
                 Username = "u",
                 Password = "p"
@@ -28,7 +28,6 @@ namespace MailClient.Tests.CommandsAndQueries
             var handler = new NewEmailCommandHandler(smtpMock.Object, credServiceMock.Object);
             var newEmail = new NewEmailModel
             {
-                From = "from@ex",
                 To = new List<string> { "to@ex" },
                 Cc = new List<string> { "cc@ex" },
                 Subject = "sub",
@@ -37,10 +36,10 @@ namespace MailClient.Tests.CommandsAndQueries
             var command = new NewEmailCommand { ServerId = 1, NewEmail = newEmail };
             await handler.Handle(command, CancellationToken.None);
             credServiceMock.Verify(s => s.GetCredentialsByServerAsync(1, CancellationToken.None), Times.Once);
-            smtpMock.Verify(s => s.ConnectAsync("smtp.ex", 587, CancellationToken.None), Times.Once);
+            smtpMock.Verify(s => s.ConnectAsync("smtp.mail.server.com", 587, CancellationToken.None), Times.Once);
             smtpMock.Verify(s => s.AuthenticateAsync("u", "p", CancellationToken.None), Times.Once);
             smtpMock.Verify(s => s.SendMailAsync(It.Is<EmailMessageRequest>(r =>
-                r.From == "from@ex" &&
+                r.From == "u@server.com" &&
                 r.To.SequenceEqual(newEmail.To) &&
                 r.Cc.SequenceEqual(newEmail.Cc) &&
                 r.Subject == "sub" &&
@@ -67,7 +66,7 @@ namespace MailClient.Tests.CommandsAndQueries
             var smtpMock = new Mock<ISmtpClient>();
             var credsModel = new ServerCredentialModel
             {
-                SmtpServerAddress = "smtp.ex",
+                SmtpServerAddress = "smtp.mail.server.com",
                 SmtpPort = 25,
                 Username = "u",
                 Password = "p"
