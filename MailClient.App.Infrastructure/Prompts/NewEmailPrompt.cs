@@ -25,8 +25,6 @@ namespace MailClient.App.Infrastructure.Prompts
         {
             _outputWriterService.WriteLine("Type 'Cancel' at any prompt to return to the main menu.");
 
-            var from = "userEmailFetchedFromSomewhere";
-
             var to = PromptAddresses("To (semicolon-separated): ", true);
 
             var cc = PromptAddresses("Cc (semicolon-separated, optional): ", false);
@@ -38,7 +36,6 @@ namespace MailClient.App.Infrastructure.Prompts
 
             return new NewEmailModel
             {
-                From = from,
                 To = to,
                 Cc = cc,
                 Subject = subject,

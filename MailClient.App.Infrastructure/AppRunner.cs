@@ -91,6 +91,8 @@ namespace MailClient.App.Infrastructure
                         break;
 
                         case Operation.SendEmail:
+
+                        ThrowIfNoServerSelected();
                         var emailInput = _newEmailPrompt.Run();
                         await _mediator.Send(new NewEmailCommand
                         {
@@ -101,6 +103,8 @@ namespace MailClient.App.Infrastructure
                         break;
 
                         case Operation.FetchInbox:
+
+                        ThrowIfNoServerSelected();
                         var result = await _mediator.Send(new FetchEmailsQuery
                         {
                             ServerId = _selectedServer.Id
@@ -134,6 +138,14 @@ namespace MailClient.App.Infrastructure
                     _outputWriterService.WriteLine($"Error: {ex.Message}");
                     _outputWriterService.WriteLine("Please try again.\n");
                 }
+            }
+        }
+
+        private void ThrowIfNoServerSelected()
+        {
+            if(_selectedServer == null)
+            {
+                throw new ArgumentException("No server selected. Please select server to continue.");
             }
         }
     }
