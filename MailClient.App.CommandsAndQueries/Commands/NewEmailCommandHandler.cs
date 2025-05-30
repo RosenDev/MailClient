@@ -23,7 +23,7 @@ namespace MailClient.App.CommandsAndQueries.Commands
             await _smtpClient.ConnectAsync(credentials.SmtpServerAddress, (int)credentials.SmtpPort, cancellationToken);
             await _smtpClient.AuthenticateAsync(credentials.Username, credentials.Password, cancellationToken);
 
-            request.NewEmail.From = $"{credentials.Username}@{ParseDomainFromServerAddress(credentials.SmtpServerAddress)}";
+            request.NewEmail.From = credentials.Username;
 
             var email = new EmailMessageRequest
             {
@@ -35,12 +35,6 @@ namespace MailClient.App.CommandsAndQueries.Commands
             };
 
             await _smtpClient.SendMailAsync(email, cancellationToken);
-        }
-
-        private string ParseDomainFromServerAddress(string serverAddress)
-        {
-            var domainParts = serverAddress.Split(".");
-            return $"{domainParts[2]}.{domainParts[3]}";
         }
     }
 }

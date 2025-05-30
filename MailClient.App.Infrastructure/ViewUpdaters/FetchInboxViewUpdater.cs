@@ -38,9 +38,9 @@ namespace MailClient.App.Infrastructure.ViewUpdaters
                     _outputWriterService.WriteLine($"  Cc: {string.Join(", ", email.Cc)}");
 
                 _outputWriterService.WriteLine($"  Subject: {email.Subject}");
-                _outputWriterService.WriteLine();
-                _outputWriterService.WriteLine(email.Body);
-                _outputWriterService.WriteLine();
+                //_outputWriterService.WriteLine();
+                //_outputWriterService.WriteLine(email.Body);
+                //_outputWriterService.WriteLine();
             }
         }
     }
