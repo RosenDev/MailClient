@@ -133,15 +133,15 @@ namespace MailClient
                 _logger.Information(await _reader.ReadLineAsync(token));
 
                 var sb = new StringBuilder();
-                sb.AppendLine($"{EmailHeaders.From}{email.From}");
-                sb.AppendLine($"{EmailHeaders.To}{string.Join(", ", email.To)}");
+                sb.Append($"{EmailHeaders.From}{email.From}\r\n");
+                sb.Append($"{EmailHeaders.To}{string.Join(", ", email.To)}\r\n");
                 if(email.Cc?.Count > 0)
-                    sb.AppendLine($"{EmailHeaders.Cc}{string.Join(", ", email.Cc)}");
-                sb.AppendLine($"{EmailHeaders.Subject}{email.Subject}");
-                sb.AppendLine($"{EmailHeaders.ContentType}text/plain; charset=utf-8");
-                sb.AppendLine();
-                sb.AppendLine(email.Body);
-                sb.AppendLine(".");
+                    sb.Append($"{EmailHeaders.Cc}{string.Join(", ", email.Cc)}\r\n");
+                sb.Append($"{EmailHeaders.Subject}{email.Subject}\r\n");
+                sb.Append($"{EmailHeaders.ContentType}text/plain; charset=utf-8\r\n");
+                sb.Append("\r\n");
+                sb.Append($"{email.Body}\r\n");
+                sb.Append(".\r\n");
 
                 await _writer.WriteLineAsync(sb.ToString());
                 await _writer.FlushAsync(token);
